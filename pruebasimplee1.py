@@ -19,6 +19,15 @@ The topo has 4 switches and 4 hosts. They are connected in a star shape.
 
 class SimplePktSwitch(Topo):
     """Simple topology example."""
+	def checkIntf( intf ):
+	#Make sure intf exists and is not configured.
+	if ( ' %s:' % intf ) not in quietRun( 'ip link show' ):
+		error( 'Error:', intf, 'does not exist!\n' )
+		exit( 1 )
+	ips = re.findall( r'\d+\.\d+\.\d+\.\d+', quietRun( 'ifconfig ' + intf ) )
+	if ips:
+		error( 'Error:', intf, 'has an IP address, and is probably in use!' )
+		exit( 1 )
 
     def __init__(self, **opts):
         """Create custom topo."""
@@ -45,7 +54,7 @@ class SimplePktSwitch(Topo):
 		eth0 = Intf( 'eth0' , node=s1 )
 		info( '\n*** Creating Physical Interfaces ***\n' )
 		info( '	*** Checking', 'eth1', '\n' )
-		checkIntf( 'eth1' )
+		checkIntf( 'eth2' )
 		eth0 = Intf( 'eth2' , node=s5 )
         # Add links
         self.addLink(h1, s1)
