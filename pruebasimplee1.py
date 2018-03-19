@@ -16,10 +16,7 @@ Instructions to run the topo:
 The topo has 4 switches and 4 hosts. They are connected in a star shape.
 """
 
-
-class SimplePktSwitch(Topo):
-    """Simple topology example."""
-	def checkIntf( intf ):
+def checkIntf( intf ):
 	#Make sure intf exists and is not configured.
 	if ( ' %s:' % intf ) not in quietRun( 'ip link show' ):
 		error( 'Error:', intf, 'does not exist!\n' )
@@ -28,6 +25,12 @@ class SimplePktSwitch(Topo):
 	if ips:
 		error( 'Error:', intf, 'has an IP address, and is probably in use!' )
 		exit( 1 )
+
+
+
+class SimplePktSwitch(Topo):
+    """Simple topology example."""
+
 
     def __init__(self, **opts):
         """Create custom topo."""
@@ -46,7 +49,7 @@ class SimplePktSwitch(Topo):
         s2 = self.addSwitch('s2', dpid="0000000000000002")
         s3 = self.addSwitch('s3', dpid="0000000000000003")
         s4 = self.addSwitch('s4', dpid="0000000000000004")
-	s5 = self.addSwitch('s5', dpid="0000000000000005")
+	    s5 = self.addSwitch('s5', dpid="0000000000000005")
 		# agregar link
 		info( '\n*** Creating Physical Interfaces ***\n' )
 		info( '	*** Checking', 'eth0', '\n' )
